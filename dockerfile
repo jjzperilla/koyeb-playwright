@@ -1,12 +1,8 @@
-FROM mcr.microsoft.com/playwright:v1.39.0-focal
-
+FROM node:18-bullseye  # Use a standard Node image
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
+COPY package.json .
+COPY package-lock.json .
+RUN npm install playwright
+RUN npx playwright install --with-deps chromium  # Explicitly install Chromium
 COPY . .
-
-EXPOSE 8080
-
 CMD ["npm", "start"]
